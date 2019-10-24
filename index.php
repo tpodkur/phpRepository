@@ -1,8 +1,13 @@
 <?php
 
-$dbconn = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=iebdkst");
+include 'Connect.php';
+include 'Query.php';
 
-$result  = pg_query($dbconn, "SELECT * FROM students");
+$studentsConnection = new Connection("host=localhost port=5432 dbname=postgres user=postgres password=iebdkst");
+$bdconn = $studentsConnection->getConnect();
+
+$query  = new Query($bdconn, "SELECT * FROM students");
+$result = $query->perform();
 
 $students = array();
 
