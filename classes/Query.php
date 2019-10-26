@@ -5,7 +5,7 @@ class Query{
 
 	public function __construct($connection, $SQLquery){
 		$this->query  = pg_query($connection, $SQLquery)
-			or die('Ошибка запроса: ' . pg_last_error());
+			or die('Ошибка запроса: ' . pg_last_error($connection));
 	}
 
 	public function perform(){
@@ -16,5 +16,3 @@ class Query{
 		pg_free_result($this->query);
 	}
 }
-
-?>

@@ -17,5 +17,3 @@ class Connection{
 		pg_close($this->connection);
 	}
 }
-
-?>
