@@ -5,7 +5,7 @@
 //});
 //require __DIR__.'./vendor/autoload.php';
 include_once './vendor/autoload.php';
-use Classes\MyApi;
+use Roowix\Podkur\MyApi;
 
 $api = new MyApi();
 $api->run();

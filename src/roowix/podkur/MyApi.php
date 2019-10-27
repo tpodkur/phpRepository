@@ -1,6 +1,6 @@
 <?php
 
-namespace Classes;
+namespace Roowix\Podkur;
 
 require_once 'Connect.php';
 require_once 'Query.php';

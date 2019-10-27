@@ -1,6 +1,6 @@
 <?php
 
-namespace Classes;
+namespace Roowix\Podkur;
 
 class Query{
 	private $query;
