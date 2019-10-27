@@ -1,5 +1,7 @@
 <?php
 
+namespace Classes;
+
 require_once 'Connect.php';
 require_once 'Query.php';
 
@@ -18,6 +20,7 @@ class MyApi
 
     public function run()
     {
+        //echo $_SERVER['REQUEST_METHOD'];
         $method = $this->method;
         switch ($method)
         {
@@ -25,6 +28,7 @@ class MyApi
                 $this->getAction();
                 break;
             case 'POST':
+                //echo "hello";
                 $this->createAction();
                 break;
             case 'PUT':
@@ -60,10 +64,13 @@ class MyApi
         $studentsConnection = new Connection($this->connectString);
         $dbconn = $studentsConnection->getConnect();
 
-        $result = pg_insert($dbconn, $this->tableName, $_POST);
+        $rest_json = file_get_contents("php://input");
+        $_POST = json_decode($rest_json, true);
+
+        $student = array("firstname" => $_POST["firstName"], "lastname" => $_POST["lastName"]);
+        $result = pg_insert($dbconn, $this->tableName, $student);
 
         echo json_encode($result);
-
     }
 
     private function updateAction()
@@ -80,7 +87,11 @@ class MyApi
     {
         $studentsConnection = new Connection($this->connectString);
         $dbconn = $studentsConnection->getConnect();
-        $condition =  array('id' => $_POST['id']);
+
+        $rest_json = file_get_contents("php://input");
+        $_POST = json_decode($rest_json, true);
+
+        $condition =  array("id" => $_POST["id"]);
 
         $result = pg_delete($dbconn, $this->tableName, $_POST);
         echo json_encode($result);

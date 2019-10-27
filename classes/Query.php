@@ -1,5 +1,7 @@
 <?php
 
+namespace Classes;
+
 class Query{
 	private $query;
 
