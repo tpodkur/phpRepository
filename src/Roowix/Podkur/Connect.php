@@ -2,7 +2,8 @@
 
 namespace Roowix\Podkur;
 
-class Connection{
+class Connect
+{
 	private $connection;
 
 	public function __construct($connection_string){

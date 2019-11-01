@@ -22,8 +22,7 @@ class MyApi
     {
         //echo $_SERVER['REQUEST_METHOD'];
         $method = $this->method;
-        switch ($method)
-        {
+        switch ($method) {
             case 'GET':
                 $this->getAction();
                 break;
@@ -44,7 +43,7 @@ class MyApi
 
     private function getAction()
     {
-        $studentsConnection = new Connection($this->connectString);
+        $studentsConnection = new Connect($this->connectString);
         $dbconn = $studentsConnection->getConnect();
 
         $query  = new Query($dbconn, "SELECT * FROM students");
@@ -52,16 +51,16 @@ class MyApi
 
         $students = array();
 
-        while ($row = pg_fetch_row($result))
-        {
+        while ($row = pg_fetch_row($result)) {
             $students[] = array("firstname" => $row[0], "lastname" => $row[1], "id" => $row[2]);
         }
 
         echo json_encode($students);
     }
 
-    private function createAction(){
-        $studentsConnection = new Connection($this->connectString);
+    private function createAction()
+    {
+        $studentsConnection = new Connect($this->connectString);
         $dbconn = $studentsConnection->getConnect();
 
         $rest_json = file_get_contents("php://input");
@@ -75,7 +74,7 @@ class MyApi
 
     private function updateAction()
     {
-        $studentsConnection = new Connection($this->connectString);
+        $studentsConnection = new Connect($this->connectString);
         $dbconn = $studentsConnection->getConnect();
         $condition =  array('id' => $_POST['id']);
 
@@ -85,15 +84,15 @@ class MyApi
 
     private function deleteAction()
     {
-        $studentsConnection = new Connection($this->connectString);
+        $studentsConnection = new Connect($this->connectString);
         $dbconn = $studentsConnection->getConnect();
 
-        $rest_json = file_get_contents("php://input");
-        $_POST = json_decode($rest_json, true);
+        $inArray = explode("/", $_SERVER['REQUEST_URI']);
+        $idArray = array("id" => (int)$inArray[2]);
 
-        $condition =  array("id" => $_POST["id"]);
+        $delStr = pg_select($dbconn, $this->tableName, $idArray);
 
-        $result = pg_delete($dbconn, $this->tableName, $_POST);
+        $result = pg_delete($dbconn, $this->tableName, $delStr[0]);
         echo json_encode($result);
     }
 
