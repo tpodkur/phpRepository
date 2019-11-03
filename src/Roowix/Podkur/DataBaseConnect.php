@@ -30,7 +30,12 @@ class DataBaseConnect
    // !частная реализация для students
         $student = array("firstname" => $fields["firstName"], "lastname" => $fields["lastName"]);
         $result = pg_insert($this->dbconn, $this->tableName, $student);
-        return $result;
+
+        if ($result != false) {
+            return $student;
+        } else {
+            return false;
+        }
     }
 
     public function delete(array $filter)

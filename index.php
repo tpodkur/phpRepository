@@ -10,14 +10,19 @@ include_once './vendor/autoload.php';
 use Roowix\Podkur\Connect;
 use Roowix\Podkur\Api;
 use \Roowix\Podkur\DataBaseConnect;
+use Roowix\Podkur\ResponseWriter;
 
 $uri = $_SERVER['REQUEST_URI'];
 $method = $_SERVER['REQUEST_METHOD'];
 $tableName = 'students';
 
 $dbconn = new DataBaseConnect();
+$response = new ResponseWriter();
 
-$api = new Api($uri, $method, $tableName, $dbconn);
+$rest_json = file_get_contents("php://input");
+$_POST = json_decode($rest_json, true);
+
+$api = new Api($uri, $method, $tableName, $dbconn, $response);
 $api->run();
 
 //$studentsConnect = new Connect("host=localhost port=5432 dbname=postgres user=postgres password=iebdkst");

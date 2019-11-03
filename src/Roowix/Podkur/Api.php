@@ -3,20 +3,23 @@
 namespace Roowix\Podkur;
 
 use Roowix\Podkur\DataBaseConnect;
+use Roowix\Podkur\ResponseWriter;
 
 class Api
 {
-    public $tableName;
-    public $method; // GET|POST|PUT|DELETE
+    private $tableName;
+    private $method; // GET|POST|PUT|DELETE
     private $uri;
     private $studentsConnect;
+    private $response;
 
-    public function __construct($uri, $method, $tableName, $dbconn)
+    public function __construct($uri, $method, $tableName, $dbconn, $response)
     {
         $this->tableName = $tableName;
         $this->method = $method;
         $this->uri = $uri;
         $this->studentsConnect = $dbconn;
+        $this->response = $response;
     }
 
     public function run()
@@ -39,17 +42,14 @@ class Api
     private function getAction()
     {
         $students = $this->studentsConnect->takeAll();
-        echo json_encode($students);
+        $this->response->write($students);
         return json_encode($students);
     }
 
     private function createAction()
     {
-        $rest_json = file_get_contents("php://input");
-        $_POST = json_decode($rest_json, true);
-
         $result = $this->studentsConnect->insert($_POST);
-        echo json_encode($result);
+        $this->response->write($result);
         return json_encode($result);
     }
 
@@ -59,19 +59,16 @@ class Api
         $idArray = array("id" => (int)$inArray[2]);     // здесь мы знаем, что нам придет 'localhost/api/${id}'
                                                         // но не должны знать, поэтому нужны регулярные выражения
         $result = $this->studentsConnect->delete($idArray);
-        echo json_encode($result);
+        $this->response->write($result);
         return json_encode($result);
     }
 
     private function updateAction()
     {
-        $rest_json = file_get_contents("php://input");
-        $_POST = json_decode($rest_json, true);
-
         $condition =  array('id' => $_POST['id']);
 
         $result = $this->studentsConnect->update($_POST, $condition);
-        echo json_encode($result);
+        $this->response->write($result);w
         return json_encode($result);
     }
 }
