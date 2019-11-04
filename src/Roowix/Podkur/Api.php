@@ -68,7 +68,7 @@ class Api
         $condition =  array('id' => $_POST['id']);
 
         $result = $this->studentsConnect->update($_POST, $condition);
-        $this->response->write($result);w
+        $this->response->write($result);
         return json_encode($result);
     }
 }

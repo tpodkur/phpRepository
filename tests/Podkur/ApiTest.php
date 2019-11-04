@@ -9,7 +9,7 @@ use Roowix\Podkur\ResponseWriter;
 
 class ApiTest extends TestCase
 {
-    public function testRunCallGetAction()
+    public function testResponseOfGetActionNotEmpty()
     {
         // arrange
         $uri = 'localhost/api/1';
@@ -28,7 +28,7 @@ class ApiTest extends TestCase
         $this->assertNotEmpty($res);
     }
 
-    public function testRunCallCreateAction()
+    public function testResponseOfCreateActionNotEmpty()
     {
         // arrange
         $uri = 'localhost/api/1';
@@ -43,13 +43,12 @@ class ApiTest extends TestCase
 
         // act
         $res = $api->run();
-        echo $res;
 
         // assert
         $this->assertNotEmpty($res);
     }
 
-    public function testRunDeleteAction()
+    public function testResponseOfDeleteActionNotEmpty()
     {
         // arrange
         $uri = 'localhost/api/1';
@@ -68,7 +67,7 @@ class ApiTest extends TestCase
         $this->assertNotEmpty($res);
     }
 
-    public function testRunCallUpdateAction()
+    public function testResponseOfUpdateActionNotEmpty()
     {
         // arrange
         $uri = 'localhost/api/1';
@@ -88,7 +87,7 @@ class ApiTest extends TestCase
         $this->assertNotEmpty($res);
     }
 
-    public function testCorrectData()
+    public function testResponseOfGetActionIsCorrect()
     {
         // arrange
         $uri = 'localhost/api/1';
