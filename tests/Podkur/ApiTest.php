@@ -57,29 +57,12 @@ class ApiTest extends TestCase
         $this->assertEquals($res, '{"firstname":"test","lastname":"test","id":0}');
     }
 
-    public function testResponseOfDeleteAction()
-    {
-        // arrange
-        $this->method = 'DELETE';
-        $this->mockConnect->method('delete')->willReturn(["id" => 0]);
-        $this->mockConnect->method('delete')->with(["id" => 1])->willReturn(["id" => 1]);
-
-        $api = new Api($this->uri, $this->method, $this->tableName, $this->mockConnect, $this->mockResponse);
-
-        // act
-        $res = $api->run();
-
-        // assert
-        $this->assertNotEmpty($res);
-        $this->assertEquals($res, '{"id":0}');
-    }
-
     public function testDeleteRunWithCorrectArgument()
     {
         // arrange
         $this->method = 'DELETE';
         $api = new Api($this->uri, $this->method, $this->tableName, $this->mockConnect, $this->mockResponse);
-        
+
         $this->mockConnect->method('delete')->with(["id" => 1])->willReturn(["id" => 1]);
 
         // act
