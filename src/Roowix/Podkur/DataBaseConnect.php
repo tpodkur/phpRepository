@@ -42,7 +42,12 @@ class DataBaseConnect
     {
         $delStr = pg_select($this->dbconn, $this->tableName, $filter);
         $result = pg_delete($this->dbconn, $this->tableName, $delStr[0]);
-        return $result;
+
+        if ($result != false) {
+            return $delStr;
+        } else {
+            return false;
+        }
     }
 
     public function update(array $fields, array $filter)

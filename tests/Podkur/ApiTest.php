@@ -95,7 +95,6 @@ class ApiTest extends TestCase
         $tableName = 'students';
 
         $mockResponse = $this->getMockBuilder(ResponseWriter::class)->getMock();
-
         $mockConnect = $this->getMockBuilder(DataBaseConnect::class)->getMock();
         $mockConnect->method('takeAll')->willReturn(array("firstname" => 'test', "lastname" => 'test', "id" => 0));
 
@@ -105,6 +104,66 @@ class ApiTest extends TestCase
         $res = $api->run();
 
         //assert
-        $this->assertContains($res, ['test', 'test', 0]);
+        $this->assertEquals($res, '{"firstname":"test","lastname":"test","id":0}');
+    }
+
+    public function testResponseOfCreateActionIsCorrect()
+    {
+        // arrange
+        $uri = 'localhost/api/1';
+        $method = 'POST';
+        $tableName = 'students';
+        $_POST =  array("id" => 'test', "lastname" => 'test');
+
+        $mockResponse = $this->getMockBuilder(ResponseWriter::class)->getMock();
+        $mockConnect = $this->getMockBuilder(DataBaseConnect::class)->getMock();
+        $mockConnect->method('insert')->willReturn(array("firstname" => 'test', "lastname" => 'test', "id" => 0));
+
+        $api = new Api($uri, $method, $tableName, $mockConnect, $mockResponse);
+
+        // act
+        $res = $api->run();
+
+        //assert
+        $this->assertEquals($res, '{"firstname":"test","lastname":"test","id":0}');
+    }
+
+    public function testResponseOfDeleteActionIsCorrect()
+    {
+        // arrange
+        $uri = 'localhost/api/1';
+        $method = 'DELETE';
+        $tableName = 'students';
+
+        $mockResponse = $this->getMockBuilder(ResponseWriter::class)->getMock();
+        $mockConnect = $this->getMockBuilder(DataBaseConnect::class)->getMock();
+        $mockConnect->method('delete')->willReturn(array("id" => 0));
+
+        $api = new Api($uri, $method, $tableName, $mockConnect, $mockResponse);
+
+        // act
+        $res = $api->run();
+
+        //assert
+        $this->assertEquals($res, '{"id":0}');
+    }
+
+    public function testRunReturnNull()
+    {
+        // arrange
+        $uri = 'localhost/api/1';
+        $method = '0';
+        $tableName = 'students';
+
+        $mockResponse = $this->getMockBuilder(ResponseWriter::class)->getMock();
+        $mockConnect = $this->getMockBuilder(DataBaseConnect::class)->getMock();
+
+        $api = new Api($uri, $method, $tableName, $mockConnect, $mockResponse);
+
+        // act
+        $res = $api->run();
+
+        // assert
+        $this->assertNull($res);
     }
 }
