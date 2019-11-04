@@ -31,29 +31,33 @@ class DataBaseConnect
         $student = array("firstname" => $fields["firstName"], "lastname" => $fields["lastName"]);
         $result = pg_insert($this->dbconn, $this->tableName, $student);
 
-        if ($result != false) {
-            return $student;
-        } else {
+        if ($result == false) {
             return false;
         }
+        return $student;
     }
 
     public function delete(array $filter)
     {
-        $delStr = pg_select($this->dbconn, $this->tableName, $filter);
-        $result = pg_delete($this->dbconn, $this->tableName, $delStr[0]);
-
-        if ($result != false) {
-            return $delStr;
-        } else {
+        if ("integer" != gettype($filter)) {
             return false;
         }
+
+        $delStr = pg_select($this->dbconn, $this->tableName, $filter);
+        $result = pg_delete($this->dbconn, $this->tableName, $delStr[0]);
+        if ($result == false) {
+            return false;
+        }
+        return $delStr;
     }
 
     public function update(array $fields, array $filter)
     {
         $result = pg_update($this->dbconn, $this->tableName, $fields, $filter);
-        return $result;
+        if ($result == false) {
+            return false;
+        }
+        return $fields;
     }
 
     public function __destruct()

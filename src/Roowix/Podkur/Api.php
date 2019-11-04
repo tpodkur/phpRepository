@@ -33,7 +33,9 @@ class Api
             case 'PUT':
                 return $this->updateAction();
             case 'DELETE':
-                return $this->deleteAction();
+                $inArray = explode("/", $this->uri);    // здесь мы знаем, что нам придет 'localhost/api/${id}'
+                $idArray = ["id" => (int)$inArray[2]];          // но не должны знать, поэтому нужны регулярные выражения
+                return $this->deleteAction($idArray);
             default:
                 return null;
         }
@@ -53,21 +55,17 @@ class Api
         return json_encode($result);
     }
 
-    private function deleteAction()
+    private function deleteAction($id)
     {
-        $inArray = explode("/", $this->uri);
-        $idArray = array("id" => (int)$inArray[2]);     // здесь мы знаем, что нам придет 'localhost/api/${id}'
-                                                        // но не должны знать, поэтому нужны регулярные выражения
-        $result = $this->studentsConnect->delete($idArray);
+        $result = $this->studentsConnect->delete($id);
         $this->response->write($result);
         return json_encode($result);
     }
 
     private function updateAction()
     {
-        $condition =  array('id' => $_POST['id']);
-
-        $result = $this->studentsConnect->update($_POST, $condition);
+        $filter = ["id" => $_POST["id"]];
+        $result = $this->studentsConnect->update($_POST, $filter);
         $this->response->write($result);
         return json_encode($result);
     }
