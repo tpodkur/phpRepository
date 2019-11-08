@@ -1,6 +1,6 @@
 <?php
 
-namespace Roowix\Podkur;
+namespace Roowix\Podkur\Response;
 
 class ResponseWriter
 {

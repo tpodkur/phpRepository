@@ -1,10 +1,13 @@
 <?php
 
-namespace Roowix\Podkur;
+namespace Roowix\Podkur\DB;
 
-class DataBaseConnect
+use Roowix\Podkur\Models\EntityStorageInterface;
+
+class DB // implements EntityStorageInterface
 {
     private $dbconn;
+    /** @var string */
     private $tableName;
 
     public function __construct()

@@ -2,29 +2,30 @@
 
 namespace Roowix\Podkur;
 
-use Roowix\Podkur\DataBaseConnect;
-use Roowix\Podkur\ResponseWriter;
+use Roowix\Podkur\DB\DB;
+use Roowix\Podkur\Models\EntityStorageInterface;
+use Roowix\Podkur\Response\ResponseWriter;
 
 class Api
 {
-    private $tableName;
-    private $method; // GET|POST|PUT|DELETE
+    /** @var string */
     private $uri;
-    private $studentsConnect;
+    /** @var ResponseWriter */
     private $response;
+    /** @var DB */
+    private $studentsConnect;
 
-    public function __construct($uri, $method, $tableName, $dbconn, $response)
+
+    public function __construct(DB $dbconn)
     {
-        $this->tableName = $tableName;
-        $this->method = $method;
-        $this->uri = $uri;
         $this->studentsConnect = $dbconn;
-        $this->response = $response;
     }
 
-    public function run()
+    public function run(string $uri, string $method, ResponseWriter $response)
     {
-        $method = $this->method;
+        $this->method = $method;
+        $this->uri = $uri;
+
         switch ($method) {
             case 'GET':
                 return $this->getAction();
@@ -34,7 +35,7 @@ class Api
                 return $this->updateAction();
             case 'DELETE':
                 $inArray = explode("/", $this->uri);    // здесь мы знаем, что нам придет 'localhost/api/${id}'
-                $idArray = ["id" => (int)$inArray[2]];          // но не должны знать, поэтому нужны регулярные выражения
+                $idArray = ["id" => (int)$inArray[2]];
                 return $this->deleteAction($idArray);
             default:
                 return null;
