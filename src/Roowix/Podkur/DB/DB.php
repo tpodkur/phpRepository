@@ -4,7 +4,7 @@ namespace Roowix\Podkur\DB;
 
 use Roowix\Podkur\Models\EntityStorageInterface;
 
-class DB // implements EntityStorageInterface
+class DB implements EntityStorageInterface
 {
     private $dbconn;
     /** @var string */

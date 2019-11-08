@@ -7,9 +7,11 @@
 //require __DIR__.'./vendor/autoload.php';
 include_once './vendor/autoload.php';
 
-use Roowix\Podkur\Connect;
+use Roowix\Podkur\DB\Connect;
 use Roowix\Podkur\Api;
-use \Roowix\Podkur\DB\DB;
+
+use Roowix\Podkur\DB\DB;
+
 use Roowix\Podkur\Response\ResponseWriter;
 
 $uri = $_SERVER['REQUEST_URI'];

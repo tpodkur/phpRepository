@@ -3,18 +3,19 @@
 namespace Roowix\Podkur;
 
 use Roowix\Podkur\DB\DB;
-use Roowix\Podkur\Models\EntityStorageInterface;
+
 use Roowix\Podkur\Response\ResponseWriter;
 
 class Api
 {
     /** @var string */
     private $uri;
-    /** @var ResponseWriter */
-    private $response;
+
     /** @var DB */
     private $studentsConnect;
 
+    /** @var ResponseWriter */
+    private $response;
 
     public function __construct(DB $dbconn)
     {
@@ -23,8 +24,8 @@ class Api
 
     public function run(string $uri, string $method, ResponseWriter $response)
     {
-        $this->method = $method;
         $this->uri = $uri;
+        $this->response = $response;
 
         switch ($method) {
             case 'GET':
